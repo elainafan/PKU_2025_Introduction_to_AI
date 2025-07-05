@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Lab 4</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="lab-4">Lab 4</h1>
+<h2 id="目录">目录</h2>
+<ul>
+<li><a href="#%E4%BB%8B%E7%BB%8D">介绍</a></li>
+<li><a href="#Q1">Q1: 定位——Pacman你在哪</a> (8 points)</li>
+<li><a href="#Q2">Q2: 控制——Pacman动起来</a> (4 points)</li>
+<li><a href="#Q3">Q3: 规划——Pacman怎么走</a> (8 points)</li>
+</ul>
+<h2 id="介绍">介绍</h2>
+<p>在这个项目中，你将使用numpy实现智能机器人和仿真专题中学到的各种算法，帮助pacman走出迷宫。</p>
+<p>代码库发生了大幅改变，请从教学网上下载lab4。</p>
+<p>本项目包括一个自动评分器，供你在机器上对答案进行评分。</p>
+<p>用以下指令可以对所有题目进行评测。</p>
+<p><code>python autograder.py</code></p>
+<h2 id="环境配置">环境配置</h2>
+<p>本次 Lab 需要用到两个第三方库： <code>Panda3D</code>、<code>Box2D</code>，注意在 Windows 和 Mac/Linux 下，<code>Box2D</code> 的安装方式有所不同</p>
+<h3 id="windows环境">Windows环境</h3>
+<p><strong>重要</strong>：在Box2D文件夹下，我们提供了python3.8/3.9/3.10/3.11四个版本编译好的Box2D库，你只需安装numpy scipy panda3d就可以运行作业文件。如果你使用的 python 是其他版本，你需要先安装Visual Studio后，参照 Mac/Linux 环境的命令编译 Box2D。建议使用以上推荐python版本</p>
+<pre><code class="language-bash">pip install numpy scipy panda3d
+</code></pre>
+<h3 id="maclinux环境">Mac/Linux环境</h3>
+<p><strong>重要</strong>：在 Mac/Linux 下，请先 <strong>删除</strong> 整个 <code>Box2D</code> 文件夹，然后按以下方法安装</p>
+<pre><code class="language-bash">pip install numpy swig scipy panda3d
+pip install box2d-py
+</code></pre>
+<p>如果下载速度过慢可以使用清华源安装 ( <a href="https://mirrors.tuna.tsinghua.edu.cn/help/pypi/">https://mirrors.tuna.tsinghua.edu.cn/help/pypi/</a> )</p>
+<p>请不要使用其他的库，以免影响评分。</p>
+<h3 id="框架说明">框架说明</h3>
+<p><strong>你需要修改的文件:</strong></p>
+<p><a href="info.yaml"><code>info.yaml</code></a> 姓名学号</p>
+<p><a href="answerLocalization.py"><code>answerLocalization.py</code></a>   定位任务中需要你实现的部分</p>
+<p><a href="answerPDControl.py"><code>answerPDControl.py</code></a>   控制任务中需要你实现的部分</p>
+<p><a href="answerPlanning.py"><code>answerPlanning.py</code></a>   规划任务中需要你实现的部分</p>
+<p><strong>你可能需要阅读的文件:</strong></p>
+<p><a href="taskLocalization.py"><code>taskLocalization.py</code></a>   蒙特卡洛定位</p>
+<p><a href="taskPDControl.py"><code>taskPDControl.py</code></a>   PD控制器</p>
+<p><a href="taskPlanning.py"><code>taskPlanning.py</code></a>   运动规划</p>
+<p><a href="physicsWrapper.py"><code>physicsWrapper.py</code></a>   获取仿真环境中的Pacman位置和速度信息</p>
+<p><a href="util.py"><code>util.py</code></a>   实现算法时的可能会用到的数据结构。</p>
+<p><strong>你可以忽略的文件:</strong></p>
+<p><a href="visualizer.py"><code>visualizer.py</code></a>   3维显示窗口</p>
+<p><a href="loadMap.py"><code>loadMap.py</code></a>   导入地图的程序</p>
+<p><a href="simuScene.py"><code>simuScene.py</code></a>   物理仿真后端</p>
+<p><a href="autograder.py"><code>autograder.py</code></a>   自动评分器</p>
+<p><strong>需要修改并提交的文件:</strong> 提交所有需要修改的文件。你可以使用以下指令来打包答案文件。</p>
+<pre><code>python compressAnswers.py
+</code></pre>
+<p><strong>评估:</strong> 我们使用<code>autograder.py</code>对你的提交进行评分，测试用例与本地给出的样例文件相同。你可以在本地运行评分器对你的代码进行评测，分数即为最终分数，注意完整测试的时间可能比较久。</p>
+<p><strong>学术诚信:</strong> 我们会将你的代码与课堂上其他提交的代码进行逻辑查重。如果你拷贝了别人的代码，并做一些微小的修改，我们会很容易发现，请不要尝试。我们相信你们会独立完成作业。</p>
+<h2 id="新的pacman规则">新的pacman规则</h2>
+<p>与之前的lab相比，lab4的pacman改成了连续地图。你需要规划路径，通过PD控制器来控制pacman在有限步内吃掉地图上的全部食物。</p>
+<p>由于改为连续地图，地图文件的格式也发生了变化，一个典型的地图文件如下</p>
+<pre><code>%%%%%%%%%%%
+%       P %
+%.%%%%%%%%%
+%.      ..%
+%%%%%%%%%%%
+</code></pre>
+<p>其中P代表pacman的起始位置，<code>%</code>代表以该位置为中心有边长为1的正方形墙壁。其中pacman为半径为0.25的圆盘，<code>.</code>为代表食物，没有质量和体积，只要pacman与食物有接触即视为吃掉食物。</p>
+<p>所有用于评分的地图已经公布。测试地图中都没有鬼，且最外圈全部是障碍物。</p>
+<h2 id="-question-1-8-points-机器人定位"><a name="Q1"></a> Question 1 (8 points): 机器人定位</h2>
+<p>已知迷宫地图，给定一些机器人的运动轨迹，使用第21节课上的内容实现蒙特卡洛定位。</p>
+<p>阅读<code>taskLocalization.py</code>，并按照要求在<code>answerLocalization.py</code>中实现对应要求。</p>
+<p>需要你实现的部分有：</p>
+<ol>
+<li>
+<p>generate_uniform_particles 在地图上的空地均匀采样，生成初始粒子</p>
+</li>
+<li>
+<p>calculate_particle_weight 根据Pacman实际接收到的激光雷达信号和你估计的粒子位置接收到的激光雷达信号，计算该粒子的重采样权重，具体的计算公式为</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>w</mi><mo>=</mo><mi>e</mi><mi>x</mi><mi>p</mi><mo stretchy="false">(</mo><mo>−</mo><mi>k</mi><mo>⋅</mo><mi>n</mi><mi>o</mi><mi>r</mi><mi>m</mi><mo stretchy="false">(</mo><mover accent="true"><msub><mi>x</mi><mi>i</mi></msub><mo>^</mo></mover><mo>−</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">w=exp(- k \cdot norm(\hat{x_i}-x_i))
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">e</span><span class="mord mathnormal">x</span><span class="mord mathnormal">p</span><span class="mopen">(</span><span class="mord">−</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.02778em;">or</span><span class="mord mathnormal">m</span><span class="mopen">(</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">))</span></span></span></span></span></p>
+<p>其中<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">x_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><msub><mi>x</mi><mi>i</mi></msub><mo>^</mo></mover></mrow><annotation encoding="application/x-tex">\hat{x_i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span>分别是16线激光雷达传感器在估计位置和真实位置的接收数据，<code>norm</code>可以直接使用L2距离，系数k可以由你来调整。每个粒子按照上述公式计算权重后还需要进行归一化，这一步不需要你来实现。</p>
+</li>
+<li>
+<p>resample_particles 根据归一化后的重采样权重对粒子进行重采样（在原来粒子的位置和朝向上加高斯噪声得到新粒子），采样出来的粒子要符合上一步计算出来的权重。注意在原有粒子上加的高斯噪声是必需的，通过不断地加噪和重采样筛选使估计的机器人姿态更加精确。可以选择在采样时直接加噪，然后下一步仅更新粒子姿态，也可以这里采样得到多个重复的粒子，然后下一步更新姿态添加噪声。高斯噪声的方差可以由你调整。</p>
+<p>可能的重采样方式是：将粒子总数乘以每个粒子的权重，并在每个粒子周围采样该数量的点，剩余的位置用均匀采样补全粒子总数。也可以用轮盘赌的方式，先按权重从大到小排序，求权重的前缀和，每次在0-1中均匀采样一个值，在前缀和数组中找到对应位置，该位置就对应着这次采样出来的粒子，这样的方式采样出来的分布就是原来的粒子权重分布。</p>
+</li>
+<li>
+<p>apply_state_transition 实现粒子姿态的移动，框架会提供每一步机器人真实的移动距离和朝向的改变值，你需要仿照给出的粒子方式更新粒子的位置和朝向，先更新朝向，并在新朝向上按照给定距离移动。</p>
+</li>
+<li>
+<p>get_estimate_result 移动结束，根据当前估计的众多粒子得到最终结果，当然你也可以直接选权重最大的</p>
+</li>
+</ol>
+<p>实现完成后运行</p>
+<pre><code>python taskLocalization.py --test_idx TEST_IDX 
+</code></pre>
+<p>来可视化你的实现结果，可以修改<code>TEST_IDX</code>(<code>TEST_IDX</code> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo></mrow><annotation encoding="application/x-tex">\in</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">∈</span></span></span></span> [0, 14])来可视化你的算法在不同测试样例上的表现。</p>
+<p>运行</p>
+<pre><code>python autograder.py --q q1
+</code></pre>
+<p>来评分。评分规则为你的定位算法计算出来的机器人姿态与答案姿态进行比较，按照差异大小进行评分。</p>
+<p>注意autograder可能会报错<code>python: command not found</code>，此时请修改autograder.py开头的PYTHON_PATH为你的python程序的绝对位置（Linux和苹果用户可以在shell中用<code>which python</code>, windows用户可以在powershell中用<code>gcm python</code></p>
+<h2 id="-question-2-4-points-运动控制"><a name="Q2"></a> Question 2 (4 points): 运动控制</h2>
+<p>实现一个PD控制器，在无障碍地图上控制pacman在到达食物的位置。
+阅读<code>taskPDControl.py</code>，并按照要求在<code>answerPDControl.py</code>中实现<code>calc_pd_force</code>函数，注意要使用函数提供的<code>kp</code>和<code>kd</code>，以免影响评分，这两个参数不需要你修改。</p>
+<p>实现完成后运行</p>
+<pre><code>python taskPDControl.py --test_idx TEST_IDX 
+</code></pre>
+<p>来可视化你的实现结果，可以修改<code>TEST_IDX</code>(<code>TEST_IDX</code> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo></mrow><annotation encoding="application/x-tex">\in</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">∈</span></span></span></span> [0, 25])来可视化你的算法在不同测试样例上的表现。</p>
+<p>运行</p>
+<pre><code>python autograder.py --q q2
+</code></pre>
+<p>来评分。评分器会根据在指定时间你控制的Pacman是否到达正确位置来判断你的实现是否正确。</p>
+<h2 id="-question-3-8-points-运动规划"><a name="Q3"></a> Question 3 (8 points): 运动规划</h2>
+<p>给定一个有多个食物的pacman地图，使用part2中实现的PD控制器，控制pacman将地图上的食物尽可能全部吃掉，吃掉食物的顺序由框架给出。</p>
+<p>阅读<code>taskPlanning.py</code>，你需要实现的部分在<code>answerPlanning.py</code></p>
+<p><code>answerPlanning.py</code>提供了快速探索随机树的大致框架，提供了一个<code>PlanningMap</code>对象用于检查与障碍物的交互，你可以在<code>simuScene.py</code>中查看用法。
+你主要需要实现以下部分：</p>
+<ol>
+<li>find_path函数：每次吃掉一个食物后会调用这个函数，提供下一个食物的位置，你需要规划出一条由当前位置前往下一个食物路径，一个由路径上的点组成的列表。</li>
+<li>get_target函数：每一个仿真时间步都会调用一次，计算该步的PD target，框架之后会用你计算出的PD target调用task2代码计算这一步施加到Pacman质心上的力，来驱动Pacman运动。</li>
+</ol>
+<p>除以上两个函数的接口之外，<code>answerPlanning.py</code>中的其他部分你都可以自由修改，这里需要注意的是，由于我们在仿真环境中驱动角色，Pacman不一定能准确到达你指定的位置，在一定情况下可能需要重新规划路径。</p>
+<p>实现完成后运行</p>
+<pre><code>python taskPlanning.py --test_idx TEST_IDX 
+</code></pre>
+<p>来可视化你的实现结果，可以修改<code>TEST_IDX</code>(<code>TEST_IDX</code> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo></mrow><annotation encoding="application/x-tex">\in</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">∈</span></span></span></span> [6, 11])来可视化你的算法在不同测试样例上的表现。</p>
+<p>运行</p>
+<pre><code>python autograder.py --q q3
+</code></pre>
+<p>来评分。评分器将根据你驱动Pacman将地图上食物全部吃完所需要的时间步进行打分。</p>
+<h2 id="acknowledgement">Acknowledgement</h2>
+<p>Designed and implemented by Yulong Zhang from the <a href="https://github.com/PKU-MoCCA">MoCCA</a> Lab. Thanks all professors and TAs of the 2025 Introduction to AI team for the valuable discussions.</p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
